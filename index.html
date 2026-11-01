@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143f36">
+  <title>尺寸研习所 · 汽车尺寸工程入门</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#lesson">跳到学习内容</a>
+  <aside class="sidebar">
+    <a class="brand" href="#dts"><span class="brand-icon" aria-hidden="true">⌖</span><span>尺寸研习所<small>DIMENSION LAB</small></span></a>
+    <div class="sidebar-caption">学习导航 <span>04 个模块</span></div>
+    <nav id="module-nav" aria-label="学习模块"></nav>
+    <div class="learning-note"><span class="note-symbol" aria-hidden="true">↗</span><strong>从目标，走向验证</strong><p>理解尺寸背后的工程逻辑，建立属于你的知识坐标。</p><div class="mini-line"></div><small>入门学习 · 自主练习</small></div>
+    <div class="sidebar-bottom">汽车尺寸工程学习手册 <span>v1.0</span></div>
+  </aside>
+  <main>
+    <header class="topbar"><span>知识工作台 <span class="divider">/</span> <span id="breadcrumb">DTS</span></span><span class="status"><i></i> 学习模式</span></header>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy"><div class="eyebrow">AUTOMOTIVE DIMENSIONAL ENGINEERING</div><h1 id="page-title">每一毫米，<br>都有工程逻辑。</h1><p>从整车目标到测量验证，用四个模块<br class="desktop-break">搭建你的汽车尺寸工程知识框架。</p><a class="hero-link" href="#lesson">开始本节学习 <span aria-hidden="true">↗</span></a></div>
+      <div class="hero-visual">
+        <svg viewBox="0 0 480 230" role="img" aria-labelledby="diagram-title"><title id="diagram-title">汽车尺寸测量示意：以车身轮廓、参考点和尺寸线表达测量关系，不代表真实设计参数</title><defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M 24 0 L 0 0 0 24" fill="none" stroke="#fff" stroke-opacity=".08"/></pattern></defs><rect width="480" height="230" fill="url(#grid)"/><g fill="none" stroke="#b4d5bb" stroke-width="1.5"><path d="M55 151 L62 119 Q66 109 91 106 L143 96 L181 60 Q188 54 203 54 L291 54 Q305 54 317 66 L358 100 L400 111 Q415 114 418 129 L421 151 L389 151 Q386 119 361 119 Q335 119 333 151 L156 151 Q154 119 128 119 Q102 119 100 151 Z"/><path d="M158 95 L191 64 L227 64 L227 96 Z M239 64 L288 64 Q299 64 306 73 L332 96 L239 96 Z M238 106 L238 150 M173 105 L171 144 M315 105 L322 146 M250 111 L265 111"/><circle cx="128" cy="151" r="22"/><circle cx="361" cy="151" r="22"/><circle cx="128" cy="151" r="10"/><circle cx="361" cy="151" r="10"/></g><g stroke="#dfc98c" fill="none"><path d="M55 174 V207 M421 174 V207 M55 197 H421 M55 197 l7 -4 m-7 4 l7 4 M421 197 l-7 -4 m7 4 l-7 4 M32 54 H171 M32 151 H89 M42 54 V151" stroke-width="1"/><path d="M207 133 H287 M247 93 V173" stroke-dasharray="3 4"/></g><g fill="#dfc98c"><circle cx="247" cy="133" r="4"/><circle cx="91" cy="106" r="3"/><circle cx="358" cy="100" r="3"/></g><g fill="#c3d7c9" font-size="10" font-family="monospace"><text x="207" y="216">尺寸关系示意</text><text x="298" y="31">REFERENCE / 01</text><text x="261" y="130">参考点</text></g></svg>
+        <div class="visual-caption"><span>设计 · 制造 · 测量</span><span>精度，源于系统思考</span></div>
+      </div>
+    </section>
+    <section class="overview" aria-label="学习概览"><div><span class="metric-number">04</span><span>核心学习模块</span></div><div><span class="metric-number">12</span><span>情景练习题</span></div><div class="progress-metric"><span class="metric-number" id="total-score">0<small>/12</small></span><span>已掌握题目</span></div><div class="progress-summary"><div><span>你的学习进度</span><strong id="progress-text">0%</strong></div><progress id="overall-progress" max="12" value="0" aria-label="答对题目进度"></progress><small>答题结果自动保存在当前浏览器</small></div></section>
+    <section id="lesson" class="lesson" aria-labelledby="lesson-title" tabindex="-1"></section>
+    <footer><span>尺寸研习所 <span class="footer-dot">·</span> 让工程知识更有坐标</span><button id="reset-progress" type="button">重置学习记录</button></footer>
+    <p id="storage-notice" class="storage-notice" role="status" hidden></p>
+  </main>
+</body>
+</html>
