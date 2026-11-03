@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091319">
+  <meta name="description" content="以纯代码生成的小米 SU7 三维探索页面，支持部件选择、结构展示、视角控制和车身配色。">
+  <title>SU7 · 三维探索工作室</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="icon-cube" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9Z M4 7.5l8 4.5 8-4.5 M12 12v9"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="icon-rotate" viewBox="0 0 24 24"><path d="M20 7v5h-5 M4 17v-5h5 M6.1 6.1a8 8 0 0 1 13.4 3.4 M17.9 17.9a8 8 0 0 1-13.4-3.4"/></symbol>
+    <symbol id="icon-reset" viewBox="0 0 24 24"><path d="M4 5v6h6 M5 10a8 8 0 1 1 .8 7"/></symbol>
+    <symbol id="icon-label" viewBox="0 0 24 24"><path d="M3 4h8l10 10-7 7L3 10Z"/><circle cx="7.5" cy="8" r="1"/></symbol>
+    <symbol id="icon-light" viewBox="0 0 24 24"><path d="M9 18h6 M9 21h6 M9 15a6 6 0 1 1 6 0v3H9Z M12 1v2 M2 8l2 1 M20 9l2-1"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6 M12 7v1"/></symbol>
+    <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12 M6 18 18 6"/></symbol>
+    <symbol id="icon-mouse" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 2v7"/></symbol>
+    <symbol id="icon-expand" viewBox="0 0 24 24"><path d="M4 9V4h5 M15 4h5v5 M20 15v5h-5 M9 20H4v-5"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  </defs></svg>
+  <a href="#studio" class="skip-link">跳到三维工作区</a>
+
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="返回尺寸研习所"><span class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#icon-cube"/></svg></span><span>DIMENSION<span class="brand-light"> LAB</span><small>尺寸研习所 / 三维实验室</small></span></a>
+    <div class="header-center"><span class="header-line"></span> AUTOMOTIVE EXPLORER <span class="header-line"></span></div>
+    <div class="header-actions"><span class="live-badge"><i></i> 实时三维</span><button type="button" id="about-open" class="icon-button" title="关于模型与资料" aria-label="关于模型与资料"><svg class="icon"><use href="#icon-info"/></svg></button></div>
+  </header>
+
+  <main id="studio" class="studio" tabindex="-1">
+    <section class="title-bar" aria-labelledby="page-title">
+      <div class="title-copy"><div class="eyebrow">探索每一处设计</div><div class="title-line"><h1 id="page-title">小米 <span>SU7</span></h1><span class="edition-tag">三维探索版</span></div><p>看见外观之下，理解设计之间。</p></div>
+      <div class="mode-section"><div class="control-label">展示模式 <span>DISPLAY MODE</span></div><div id="mode-buttons" class="segmented mode-buttons" role="group" aria-label="展示模式"><button type="button" data-mode="exterior" aria-pressed="true">整车外观</button><button type="button" data-mode="xray" aria-pressed="false">透视结构</button><button type="button" data-mode="exploded" aria-pressed="false">部件分解</button><button type="button" data-mode="wireframe" aria-pressed="false">线框视图</button></div></div>
+    </section>
+
+    <div class="workspace">
+      <aside class="panel parts-panel" aria-labelledby="parts-title">
+        <div class="panel-heading"><div><span class="panel-index">01 / EXPLORE</span><h2 id="parts-title">部件探索</h2></div><span class="count-badge" id="visible-count">—</span></div>
+        <label class="search-field"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg><input id="part-search" type="search" placeholder="搜索部件 / 参数…" autocomplete="off" aria-label="搜索部件名称或参数"></label>
+        <div class="filter-field"><label for="category-filter">部件分类</label><select id="category-filter"><option value="all">全部系统</option><option value="exterior">外观与车身</option><option value="chassis">底盘与动力</option><option value="interior">座舱与内饰</option></select></div>
+        <div class="list-caption"><span>选择部件，查看详细信息</span><span aria-hidden="true">↘</span></div>
+        <div id="part-list" class="part-list" aria-label="可探索部件"></div>
+        <div class="panel-bottom-note"><span class="tiny-cross" aria-hidden="true">+</span> 在车身上点击，同样可以选中部件</div>
+      </aside>
+
+      <section class="stage" aria-label="三维车辆展示">
+        <div class="stage-topline"><div><span class="stage-code">SU7 / 3D</span><span class="stage-note">外观复原 · 结构示意</span></div><div class="stage-ready"><i></i><span id="view-status" role="status">整车外观</span></div></div>
+        <div id="viewport" class="viewport" aria-label="小米 SU7 交互式三维场景">
+          <div id="labels" class="scene-labels" aria-label="部件标签"></div>
+          <div id="loading" class="loading" role="status"><div class="loading-ring" aria-hidden="true"></div><strong>正在构建三维场景</strong><span>每一个部件，都由代码生成</span></div>
+          <div id="load-error" class="load-error" role="alert" hidden><svg class="icon"><use href="#icon-info"/></svg><strong>三维场景暂时无法显示</strong><p>请使用支持 WebGL 的新版 Chrome、Edge 或 Safari，并开启硬件加速后重试。</p><a href="./">重新加载页面</a></div>
+        </div>
+        <div class="stage-axis" aria-hidden="true"><span class="axis-y">Y</span><span class="axis-z">Z</span><span class="axis-x">X</span><svg viewBox="0 0 64 64"><path d="M30 36V8" stroke="#69bda0"/><path d="m30 36 25 14" stroke="#649bbf"/><path d="M30 36 7 49" stroke="#c78f7b"/><circle cx="30" cy="36" r="3" fill="#73818b"/></svg></div>
+        <div class="stage-bottomline"><span class="stage-interaction"><svg class="icon" aria-hidden="true"><use href="#icon-mouse"/></svg><span class="desktop-help">拖动旋转 · 滚轮缩放 · 点击探索</span><span class="touch-help">单指旋转 · 双指缩放 · 轻触探索</span></span><span id="performance-label" class="render-status">THREE.JS / WEBGL</span></div>
+      </section>
+
+      <aside class="panel detail-panel" aria-labelledby="detail-title">
+        <div class="panel-heading"><div><span class="panel-index">02 / INSPECT</span><h2 id="detail-title">设计档案</h2></div><svg class="icon detail-heading-icon" aria-hidden="true"><use href="#icon-expand"/></svg></div>
+        <div class="detail-visual" aria-hidden="true"><div class="detail-ring"></div><svg viewBox="0 0 240 110"><path d="m23 67 7-20 40-7 24-24h54l33 28 28 10 7 18h-24m-34 0H83m-34 0H23M81 39l19-17h43l22 20Z"/><circle cx="65" cy="72" r="17"/><circle cx="175" cy="72" r="17"/><circle cx="65" cy="72" r="8"/><circle cx="175" cy="72" r="8"/><path class="detail-dimension-line" d="M22 92h196 M22 86v12 M218 86v12"/></svg><span>DESIGN / ENGINEERING</span></div>
+        <div class="detail-content"><span id="detail-category" class="detail-category">整车概览</span><h3 id="detail-name">小米 SU7</h3><p id="detail-description" class="detail-description">流畅的车身曲线，藏着空气动力学与工程设计的平衡。选择一个部件，开始探索它的设计。</p><div class="detail-specs-heading">关键参数 <span>SPECIFICATIONS</span></div><dl id="detail-specs" class="detail-specs"><dt>展示类型</dt><dd>程序化三维</dd><dt>交互方式</dt><dd>鼠标 / 触屏</dd><dt>当前状态</dt><dd>请选择部件</dd></dl><p id="detail-note" class="detail-note">外观与结构用于交互学习展示。</p><button type="button" id="selection-clear" class="text-button">返回整车概览 <span aria-hidden="true">↗</span></button></div>
+        <div class="detail-footer"><span class="detail-footer-symbol" aria-hidden="true">⌖</span><div>由外及内，逐一探索<small>ENGINEERED TO BE EXPLORED</small></div></div>
+      </aside>
+    </div>
+
+    <section class="toolbar" aria-label="展示控制">
+      <div class="camera-control"><div class="control-label">视角预设 <span>CAMERA</span></div><div id="camera-buttons" class="camera-buttons" role="group" aria-label="视角预设"><button type="button" data-camera="perspective" aria-pressed="true">自由视角</button><button type="button" data-camera="front" aria-pressed="false">正前</button><button type="button" data-camera="side" aria-pressed="false">侧面</button><button type="button" data-camera="rear" aria-pressed="false">车尾</button><button type="button" data-camera="top" aria-pressed="false">俯视</button></div></div>
+      <div class="paint-control"><div class="control-label">车身配色 <span>PAINT</span></div><div id="paint-colors" class="paint-colors" role="group" aria-label="车身配色"><button type="button" data-color="#16c5c5" aria-pressed="true" aria-label="海湾蓝" title="海湾蓝" style="--paint:#16c5c5"></button><button type="button" data-color="#d9dce0" aria-pressed="false" aria-label="雅灰" title="雅灰" style="--paint:#d9dce0"></button><button type="button" data-color="#7d99ae" aria-pressed="false" aria-label="冰川蓝" title="冰川蓝" style="--paint:#7d99ae"></button><button type="button" data-color="#a37e9d" aria-pressed="false" aria-label="霞光紫" title="霞光紫" style="--paint:#a37e9d"></button><button type="button" data-color="#242a31" aria-pressed="false" aria-label="深空黑" title="深空黑" style="--paint:#242a31"></button></div></div>
+      <div class="tool-actions"><button type="button" id="auto-rotate" class="tool-button" aria-pressed="false" title="切换自动旋转"><svg class="icon" aria-hidden="true"><use href="#icon-rotate"/></svg><span>自动旋转</span></button><button type="button" id="labels-toggle" class="tool-button" aria-pressed="true" title="显示或隐藏部件标签"><svg class="icon" aria-hidden="true"><use href="#icon-label"/></svg><span>部件标注</span></button><button type="button" id="light-toggle" class="tool-button" aria-pressed="true" title="开启或关闭车灯"><svg class="icon" aria-hidden="true"><use href="#icon-light"/></svg><span>车灯</span></button><button type="button" id="reset-view" class="icon-button" title="重置视角" aria-label="重置视角"><svg class="icon"><use href="#icon-reset"/></svg></button><span class="toolbar-divider"></span><button type="button" id="help-open" class="help-button" aria-label="查看操作指南">?</button></div>
+    </section>
+    <footer class="page-footer"><span>DIMENSION LAB <span class="footer-separator">/</span> 用交互理解汽车工程</span><span>纯代码生成 <span class="footer-dot">·</span> 无外部三维模型</span></footer>
+    <p id="selection-announcement" class="visually-hidden" role="status" aria-live="polite"></p>
+  </main>
+
+  <dialog id="part-dialog" class="info-dialog part-dialog" aria-labelledby="mobile-part-title"><div class="dialog-heading"><div><span class="eyebrow">PART / INSPECT</span><h2 id="mobile-part-title">部件详情</h2></div><button type="button" class="icon-button" data-close-dialog="part-dialog" aria-label="关闭部件详情"><svg class="icon"><use href="#icon-cross"/></svg></button></div><div id="mobile-detail-content"></div></dialog>
+  <dialog id="help-dialog" class="info-dialog" aria-labelledby="help-title"><div class="dialog-heading"><div><span class="eyebrow">QUICK START</span><h2 id="help-title">开始你的三维探索</h2></div><button type="button" class="icon-button" data-close-dialog="help-dialog" aria-label="关闭操作指南"><svg class="icon"><use href="#icon-cross"/></svg></button></div><div class="help-grid"><div><span>01</span><h3>移动视角</h3><p>鼠标左键拖动或单指滑动旋转；滚轮或双指捏合缩放；右键拖动或双指移动平移。</p></div><div><span>02</span><h3>探索部件</h3><p>点击车身部件，或从清单选择。选中后查看高亮、名称及详细介绍。</p></div><div><span>03</span><h3>切换模式</h3><p>整车外观、透视结构、部件分解与线框视图，从不同层次观察设计。</p></div><div><span>04</span><h3>自由搭配</h3><p>尝试车身配色、视角预设与车灯。使用重置按钮返回初始视角。</p></div></div><p class="dialog-tip">手机上可向下滑动，查看部件清单和设计档案。</p><button type="button" class="primary-button" data-close-dialog="help-dialog">开始探索 <span aria-hidden="true">↗</span></button></dialog>
+  <dialog id="about-dialog" class="info-dialog" aria-labelledby="about-title"><div class="dialog-heading"><div><span class="eyebrow">ABOUT THIS EXPLORER</span><h2 id="about-title">关于模型与资料</h2></div><button type="button" class="icon-button" data-close-dialog="about-dialog" aria-label="关闭模型说明"><svg class="icon"><use href="#icon-cross"/></svg></button></div><p>本页面以所提供的小米 SU7 外观图片为参考，使用 Three.js 及代码生成全部三维几何，不加载外部三维模型文件。</p><p>这是用于交互学习的外观近似复原，不是官方数字样车或 CAD 模型。照片不能确认的内部结构、零件尺寸和装配关系采用示意表达，不能用于制造、检修或碰撞判断。</p><p>不同年款与配置的车身、轮毂及技术参数可能不同。详情中明确区分建模参数与设计说明，未验证的数据不作为车辆官方参数展示。</p><p>产品名称及商标属于各自权利人。本页面为独立学习演示。</p><button type="button" class="primary-button" data-close-dialog="about-dialog">了解，继续探索</button></dialog>
+</body>
+</html>

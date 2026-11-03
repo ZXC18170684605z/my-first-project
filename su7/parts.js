@@ -1,0 +1,211 @@
+/**
+ * Educational descriptions for a procedural, SU7-inspired visualization.
+ * Values describe this model unless explicitly stated otherwise.
+ * Do not treat hidden geometry as manufacturer engineering data.
+ */
+export const PARTS = [
+  {
+    id: 'body',
+    name: '车身外壳',
+    category: 'exterior',
+    description: '以照片中低趴的四门轿跑轮廓为参考，连续曲面连接前舱、肩线与尾部。外形由代码生成，可切换车漆并观察表面高光。',
+    specs: [
+      { label: '外形', value: '四门溜背轿车' },
+      { label: '建模比例', value: '车长约 5 m · 轴距约 3 m' },
+      { label: '表现', value: '程序化曲面 / 金属漆效果' },
+    ],
+    note: '尺寸仅用于模型比例；外观近似复原，不是官方 CAD 或实车尺寸检验数据。',
+  },
+  {
+    id: 'hood',
+    name: '前舱盖',
+    category: 'exterior',
+    description: '前舱盖的中部微拱与两侧轮拱共同形成前部轮廓。盖板分缝用于表达独立部件边界，观察高光可理解曲面过渡。',
+    specs: [
+      { label: '位置', value: '车头上方' },
+      { label: '形态', value: '低矮弧面 / 双侧隆起' },
+      { label: '结构表达', value: '独立外覆盖件' },
+    ],
+    note: '分缝、板厚和内部加强结构为可视化简化，不能用于制造或装配判断。',
+  },
+  {
+    id: 'roof',
+    name: '全景车顶',
+    category: 'exterior',
+    description: '深色车顶与前后风挡组成连续的视觉弧线。模型强调照片中的溜背轮廓与车顶边缘过渡。',
+    specs: [
+      { label: '位置', value: '乘员舱上方' },
+      { label: '外观', value: '深色全景玻璃效果' },
+      { label: '轮廓', value: '弧形车顶 / 溜背过渡' },
+    ],
+    note: '玻璃分层、隔热性能和真实车顶骨架未取得可验证资料，本模型不表达这些参数。',
+  },
+  {
+    id: 'glazing',
+    name: '风挡与侧窗',
+    category: 'exterior',
+    description: '大倾角前风挡、侧窗和后风挡共同定义座舱。玻璃使用透明材质，透视模式中可观察内部空间关系。',
+    specs: [
+      { label: '组成', value: '前风挡 / 侧窗 / 后风挡' },
+      { label: '显示', value: '半透明曲面' },
+      { label: '观察重点', value: '窗框、立柱与座舱的关系' },
+    ],
+    note: '深浅与透明度用于展示；不代表实际透光率、玻璃厚度或安全结构。',
+  },
+  {
+    id: 'doors',
+    name: '车门与门把手',
+    category: 'exterior',
+    description: '四扇侧门沿腰线与侧裙划分车身，门把手与表面保持紧凑衔接。部件边界帮助识别轿跑侧面比例。',
+    specs: [
+      { label: '布局', value: '左右各两扇侧门' },
+      { label: '外观细节', value: '门缝 / 门把手 / 下部折线' },
+      { label: '关联部件', value: '侧窗与外后视镜' },
+    ],
+    note: '铰链、门锁、防撞梁及密封结构未精确复原；模型门缝不代表量产间隙要求。',
+  },
+  {
+    id: 'mirrors',
+    name: '外后视镜',
+    category: 'exterior',
+    description: '外后视镜位于前侧窗附近，由镜壳、镜片和支座组成。流线形镜壳与车身颜色呼应。',
+    specs: [
+      { label: '数量', value: '左右各一组' },
+      { label: '组成', value: '镜壳 / 镜片 / 支座' },
+      { label: '作用', value: '提供侧后方视野' },
+    ],
+    note: '镜片曲率、视野范围和折叠机构采用简化表达，不作为法规或功能校核依据。',
+  },
+  {
+    id: 'headlights',
+    name: '前灯组',
+    category: 'exterior',
+    description: '以参考照片中的扁长灯腔和内部线条为视觉依据，用多层几何与发光材质表现灯罩、灯腔和日间行车灯。',
+    specs: [
+      { label: '位置', value: '车头左右两侧' },
+      { label: '视觉结构', value: '灯罩 / 深色灯腔 / 发光线条' },
+      { label: '控制', value: '页面灯光开关' },
+    ],
+    note: '灯具光学系统、光型和亮度未模拟；发光效果不代表实车照明参数。',
+  },
+  {
+    id: 'taillights',
+    name: '贯穿式尾灯',
+    category: 'exterior',
+    description: '贯穿尾部的细长灯带与左右灯腔共同建立尾部识别特征。后部视角可观察灯带与行李厢边缘的关系。',
+    specs: [
+      { label: '位置', value: '车尾上部横向布置' },
+      { label: '外观', value: '贯穿灯带 / 两侧灯腔' },
+      { label: '控制', value: '页面灯光开关' },
+    ],
+    note: '灯腔内部细节和配光为视觉示意，未复原真实灯珠数量或光学结构。',
+  },
+  {
+    id: 'wheels',
+    name: '轮胎与轮毂',
+    category: 'chassis',
+    description: '四组车轮由轮胎、轮辋与多辐轮毂构成。深色辐条和明亮切面用于再现参考照片中的运动轮毂观感。',
+    specs: [
+      { label: '数量', value: '四组' },
+      { label: '几何', value: '环形轮胎 / 辐条轮毂' },
+      { label: '关联部件', value: '制动盘、卡钳与悬架' },
+    ],
+    note: '轮胎规格、轮毂尺寸与具体选装版本尚未确认，因此不显示实车英寸数或胎宽。',
+  },
+  {
+    id: 'brakes',
+    name: '制动盘与卡钳',
+    category: 'chassis',
+    description: '轮毂内侧展示制动盘与固定位置的卡钳。制动时，摩擦片对制动盘施加摩擦力，将车辆动能转化为热。',
+    specs: [
+      { label: '教学结构', value: '盘式制动器' },
+      { label: '组成', value: '制动盘 / 卡钳示意' },
+      { label: '作用', value: '提供车轮制动力矩' },
+    ],
+    note: '盘径、活塞数、供应商和性能不对应已确认的 SU7 配置；不能据此估算制动距离。',
+  },
+  {
+    id: 'battery',
+    name: '底置电池包',
+    category: 'chassis',
+    description: '电池包以扁平箱体布置在乘员舱下方。透视或分解展示用于理解电池包、地板与前后桥的空间关系。',
+    specs: [
+      { label: '位置示意', value: '乘员舱地板下方' },
+      { label: '作用', value: '储存并提供驱动电能' },
+      { label: '表达层级', value: '总成外形示意' },
+    ],
+    note: '内部结构为通用教学示意，不代表 SU7 的电芯布置、容量、化学体系或热管理方案。',
+  },
+  {
+    id: 'front-drive',
+    name: '前部电驱总成',
+    category: 'chassis',
+    description: '前部电驱以简化壳体和半轴表现驱动力传递路径，用于双电机布局的教学展示。',
+    specs: [
+      { label: '教学位置', value: '前桥附近' },
+      { label: '功能', value: '电能转换 / 驱动力传递' },
+      { label: '展示假设', value: '双电机布局' },
+    ],
+    note: 'SU7 的电驱配置随版本不同。本示意不用于判断照片车型配置，也不表达功率、转速或精确安装位置。',
+  },
+  {
+    id: 'rear-drive',
+    name: '后部电驱总成',
+    category: 'chassis',
+    description: '后部电驱位于后桥区域，模型用壳体与半轴表达驱动总成与后轮的联系。透视模式可帮助观察其相对位置。',
+    specs: [
+      { label: '教学位置', value: '后桥附近' },
+      { label: '功能', value: '驱动后轮' },
+      { label: '结构表达', value: '电驱壳体 / 半轴示意' },
+    ],
+    note: '电机、减速器及逆变器形态为简化教学结构，未依据官方总成 CAD 建模。',
+  },
+  {
+    id: 'seats',
+    name: '座椅与座舱布局',
+    category: 'interior',
+    description: '前排独立座椅与后排座椅用于说明乘员舱布局。座椅靠背、坐垫与头枕均由基础几何组合生成。',
+    specs: [
+      { label: '布局示意', value: '前排双座 / 后排座椅' },
+      { label: '组成', value: '坐垫 / 靠背 / 头枕' },
+      { label: '查看方式', value: '透视或分解模式' },
+    ],
+    note: '内饰照片不足，座椅造型、面料与调节结构为通用示意，不对应真实内饰配置。',
+  },
+  {
+    id: 'dashboard',
+    name: '仪表台与方向盘',
+    category: 'interior',
+    description: '驾驶区域以方向盘、仪表台与中央信息屏表达主要空间关系。重点展示人机界面的布置，而非复刻车机软件。',
+    specs: [
+      { label: '区域', value: '座舱前部' },
+      { label: '组成', value: '方向盘 / 仪表台 / 中央屏' },
+      { label: '层级', value: '空间布局示意' },
+    ],
+    note: '屏幕尺寸、交互界面、安全气囊及内部结构未精确复原。',
+  },
+  {
+    id: 'suspension',
+    name: '悬架与底盘连接',
+    category: 'chassis',
+    description: '连杆、弹簧和减振器的简化几何用于说明车轮与车身之间的连接、支承和振动控制关系。',
+    specs: [
+      { label: '教学作用', value: '支承 / 导向 / 振动控制' },
+      { label: '表达', value: '连杆与弹簧减振器示意' },
+      { label: '查看方式', value: '分解或透视模式' },
+    ],
+    note: '悬架拓扑、硬点、刚度及运动学未按 SU7 工程数据建立，不应用于结构或性能分析。',
+  },
+  {
+    id: 'lidar',
+    name: '车顶传感器',
+    category: 'exterior',
+    description: '根据参考照片，在车顶前缘保留凸起的传感器外壳。该外形常用于表达激光雷达等感知设备的安装区域。',
+    specs: [
+      { label: '参考位置', value: '车顶前缘' },
+      { label: '外观', value: '紧凑凸起式外壳' },
+      { label: '教学作用', value: '辅助理解环境感知布局' },
+    ],
+    note: '照片不足以确认传感器型号、配置版本、探测距离或线数；模型不模拟真实感知能力。',
+  },
+];
